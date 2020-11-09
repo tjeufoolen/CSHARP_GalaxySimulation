@@ -1,0 +1,56 @@
+﻿<Page
+    x:Class="FlatGalaxy.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:FlatGalaxy.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <vm:ViewModelLocator x:Name="VML"/>
+    </Page.DataContext>
+
+    <StackPanel>
+        <CommandBar x:Name="PrimaryCommandBar" Background="#333333" IsOpen="False" DefaultLabelPosition="Right" Canvas.ZIndex="1" Height="40">
+            <AppBarToggleButton x:Name="revertButton" Icon="RepeatAll" Label="Back 5s" Command="{x:Bind Path=VML.Main.RevertSimulationCommand}"/>
+            <AppBarSeparator/>
+            <AppBarButton x:Name="slowerButton" Icon="Back" Label="Slower" Command="{x:Bind Path=VML.Main.SlowDownSimulationCommand}" />
+            <AppBarButton x:Name="playPauseButton" Icon="Play" Label="Play" Command="{x:Bind Path=VML.Main.PlayPauseSimulationCommand}" />
+            <AppBarButton x:Name="fasterButton" Icon="Forward" Label="Faster" Command="{x:Bind Path=VML.Main.SpeedUpSimulationCommand}"/>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="settingsButton" Icon="Setting" Label="Settings" Command="{x:Bind Path=VML.Main.SettingsCommand}" />
+                <AppBarButton x:Name="loadButton" Icon="Upload" Label="Load galaxy" Command="{x:Bind Path=VML.Main.LoadGalaxyCommand}" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+
+        <ItemsControl ItemsSource="{x:Bind Path=VML.Main.DrawableObjects}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="content" Background="White" Canvas.ZIndex="2" Width="800" Height="600"></Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplateSelector>
+                <vm:GalaxyTemplateSelector>
+                    <vm:GalaxyTemplateSelector.CelestialBodyTemplate>
+                        <DataTemplate x:DataType="vm:CelestialBodyVM">
+                            <Ellipse Height="{x:Bind Diameter}" Width="{x:Bind Diameter}" Fill="{x:Bind Colour}">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform X="{x:Bind X}" Y="{x:Bind Y}"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                    </vm:GalaxyTemplateSelector.CelestialBodyTemplate>
+                    <vm:GalaxyTemplateSelector.LineTemplate>
+                        <DataTemplate x:DataType="vm:LineVM">
+                            <Line X1="{x:Bind X1}" Y1="{x:Bind Y1}" X2="{x:Bind X2}" Y2="{x:Bind Y2}" Stroke="Blue"></Line>
+                        </DataTemplate>
+                    </vm:GalaxyTemplateSelector.LineTemplate>
+                </vm:GalaxyTemplateSelector>
+            </ItemsControl.ItemTemplateSelector>
+        </ItemsControl>
+    </StackPanel>
+</Page>

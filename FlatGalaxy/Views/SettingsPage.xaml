@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="FlatGalaxy.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:FlatGalaxy.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <vm:ViewModelLocator x:Name="VML"/>
+    </Page.DataContext>
+    
+    <StackPanel>
+        <CommandBar x:Name="PrimaryCommandBar" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right" Canvas.ZIndex="1">
+            <CommandBar.Content>
+                <TextBlock Text="Settings" Margin="12,14"/>
+            </CommandBar.Content>
+
+            <AppBarToggleButton x:Name="backButton" Icon="Back" Label="Return to galaxy" Command="{x:Bind VML.Settings.BackCommand}"/>
+        </CommandBar>
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Height="600">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock FontSize="40" Text="Keybindings" Margin="0,20,0,0"/>
+                <HyperlinkButton Content="Click here for a list of all available keys." NavigateUri="https://docs.microsoft.com/en-us/uwp/api/windows.system.virtualkey" Margin="0,0,0,20"/>
+
+                <ListView ItemsSource="{x:Bind VML.Settings.KeyBindings}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:KeyBindingVM">
+                            <StackPanel Orientation="Horizontal" Width="500" >
+                                <TextBlock Text="{x:Bind Name}" Width="300" />
+                                <TextBox Text="{x:Bind Key, Mode=TwoWay}" Width="200" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Button Content="Save" Command="{x:Bind VML.Settings.SaveCommand}" HorizontalAlignment="Stretch" Margin="0,20,0,20"/>
+            </StackPanel>
+        </ScrollViewer>
+    </StackPanel>
+</Page>

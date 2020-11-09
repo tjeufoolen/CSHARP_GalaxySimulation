@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="FlatGalaxy.UploadPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:FlatGalaxy.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <vm:ViewModelLocator x:Name="VML"/>
+    </Page.DataContext>
+
+    <StackPanel>
+        <CommandBar x:Name="PrimaryCommandBar" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right" Canvas.ZIndex="1">
+            <CommandBar.Content>
+                <TextBlock Text="Upload a galaxy" Margin="12,14"/>
+            </CommandBar.Content>
+
+            <AppBarToggleButton x:Name="backButton" Icon="Back" Label="Return to galaxy" Command="{x:Bind VML.Upload.BackCommand}"/>
+        </CommandBar>
+
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="Online" FontSize="40" Margin="0,20,0,20"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBox Width="500" Header="Insert direct url to a .csv/.xml file" PlaceholderText="https://example.com/planets.csv" Text="{x:Bind VML.Upload.FileUrl, Mode=TwoWay}"/>
+                <Button x:Name="openOnlineFileButton" Content="Openen" VerticalAlignment="Bottom" Command="{x:Bind VML.Upload.OpenOnlineFileCommand}"/>
+            </StackPanel>
+
+            <TextBlock Text="Offline" FontSize="40" Margin="0,20,0,20"/>
+            <Button x:Name="openOfflineFileButton" Width="570" Content="Offline file selecteren" VerticalAlignment="Bottom" Command="{x:Bind VML.Upload.OpenOfflineFileCommand}"/>
+        </StackPanel>
+    </StackPanel>
+</Page>
