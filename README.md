@@ -1,5 +1,5 @@
 
-# CSHARP_GalaxySimulation
+# UWP_GalaxySimulation
 
 ## Key Features
 
