@@ -1,5 +1,5 @@
 
-# UWP_GalaxySimulation
+# GalaxySimulator
 
 ## Key Features
 
